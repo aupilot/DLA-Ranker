@@ -1,1 +1,1 @@
-![](Images/methods.svg.png?raw=true "DLA-Ranker")
+![](Images/method5.svg.png?raw=true "DLA-Ranker")
