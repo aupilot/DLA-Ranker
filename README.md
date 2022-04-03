@@ -2,10 +2,9 @@
 
 - [Overview](#overview)
 - [Requirements](#Requirements)
-- [Quick Tutorial](#Tutorial)
-- [Documentation](https://deeprank.readthedocs.io/)
+- [Tutorial](#Tutorial)
 - [License](./LICENSE)
-- [Issues & Contributing](#Issues-and-Contributing)
+- [Issues](#Issues-and-Contributing)
 
 ## Overview
 ![](Images/method5.svg.png?raw=true "DLA-Ranker")
