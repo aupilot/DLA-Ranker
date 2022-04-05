@@ -86,36 +86,15 @@ model = load_model(path.join('../Examples', 'MODELS', 'BM5', '0_model'))
 
 predictions_file = open('../Examples/predictions_SCR', 'w')
 
-#Must be update!
-def load_map(train_path):
-    """
+def load_map(sample_path):
     check_call(
         [
-            'lz4_win64_v1_9_3\lz4.exe', '-d', '-f',
-            train_path
+            'lz4', '-d', '-f',
+            sample_path
         ],
         stdout=sys.stdout)
-    """
-    print(train_path)
-    #X_train, y_train, reg_type, _,_,_ = load_obj(train_path.replace('.pkl.lz4',''))
-    X_train, y_train, reg_type, res_pos,_,info = load_obj(train_path.replace('.pkl',''))
-    #X_train = X_train[:,:,:,:,:167]
-
-    """
-    X_train_tmp = []
-    reg_type_tmp = []
-    y_train_tmp = []
-    for i in range(min(len(X_train),len(reg_type))):
-        if reg_type[i] == 'C' or reg_type[i] == 'R':
-            X_train_tmp.append(X_train[i])
-            reg_type_tmp.append(reg_type[i])
-            y_train_tmp.append(y_train[i])
-    reg_type = reg_type_tmp
-    X_train = np.array(X_train_tmp)
-    y_train = y_train_tmp
-    """
-
-    #remove(train_path.replace('.lz4',''))
+    X_train, y_train, reg_type, res_pos,_,info = load_obj(sample_path.replace('.pkl.lz4',''))
+    remove(sample_path.replace('.lz4',''))
     return X_train, y_train, reg_type, res_pos, info
 
 fold = 'test'

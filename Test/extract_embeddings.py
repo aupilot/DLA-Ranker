@@ -97,21 +97,15 @@ mkdir(intermediate_dir)
 
 model = load_model(path.join('../Examples', 'MODELS', 'Dockground', '0_model'))
 
-
-#Must be update!
-def load_map(train_path):
-    """
+def load_map(sample_path):
     check_call(
         [
-            'lz4_win64_v1_9_3\lz4.exe', '-d', '-f',
-            train_path
+            'lz4', '-d', '-f',
+            sample_path
         ],
         stdout=sys.stdout)
-    """
-    print(train_path)
-    #X_train, y_train, reg_type, _,_,_ = load_obj(train_path.replace('.pkl.lz4',''))
-    X_train, y_train, reg_type, res_pos,_,_ = load_obj(train_path.replace('.pkl',''))
-    #remove(train_path.replace('.lz4',''))
+    X_train, y_train, reg_type, res_pos,_,_ = load_obj(sample_path.replace('.pkl.lz4',''))
+    remove(sample_path.replace('.lz4',''))
     return X_train, y_train, reg_type, res_pos
         
 batch_samples_test_1 = []

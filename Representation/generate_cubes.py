@@ -40,7 +40,7 @@ logging.Logger
 sys.path.insert(1, '../lib/')
 import tools as tl
 
-confom_dict = pd.read_csv('../Examples/conformations_list', sep=';')    
+confom_dict = pd.read_csv('../Examples/conformations_list.txt', sep=';')    
 comp_dir = '../Examples/conformations_directory'
 target_comp = listdir(comp_dir)
 
