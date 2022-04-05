@@ -72,7 +72,7 @@ Place the ensemble of conformations in a directory (*e.g. 'Examples/conformation
 
 ```
 Example
-|___conformations_list
+|___conformations_list.txt
 |
 |___conformations_directory
     |
@@ -89,7 +89,7 @@ Example
     ..........
 ```
 
-'conformations_list' is a csv file that contains five columns separated by ';': Name of target complex (`Comp`); receptor chain ID(s) (`ch1`), ligand chain ID(s) (`ch2`); Name of the conformation file (`Conf`); class of the conformation (`Class`, 0:incorrect, 1: near-native).
+'conformations_list.txt' is a csv file that contains five columns separated by ';': Name of target complex (`Comp`); receptor chain ID(s) (`ch1`), ligand chain ID(s) (`ch2`); Name of the conformation file (`Conf`); class of the conformation (`Class`, 0:incorrect, 1: near-native).
 
 
 #### Processing the conformations
