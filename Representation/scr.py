@@ -11,9 +11,8 @@ import os
 import sys
 from os import path, remove
 
-#sys.path.insert(1, '../lib/')
-#import tools as tl
-NACCESS_PATH = 'naccess'
+sys.path.insert(1, '../lib/')
+import tools as tl
 
 def rimcoresup(rsa_rec,rsa_lig,rsa_complex):
     '''INPUT: file rsa da NACCESS.
@@ -180,11 +179,11 @@ def rimcoresup(rsa_rec,rsa_lig,rsa_complex):
 
 def get_scr(rec, lig, com, name):
     #print('rec', path.basename(rec.replace('pdb', 'rsa')))
-    cmdcompl=NACCESS_PATH + ' ' + com
+    cmdcompl=tl.NACCESS_PATH + ' ' + com
     os.system(cmdcompl) 
-    cmdrec=NACCESS_PATH + ' ' + rec
+    cmdrec=tl.NACCESS_PATH + ' ' + rec
     os.system(cmdrec) 
-    cmdlig=NACCESS_PATH + ' ' + lig
+    cmdlig=tl.NACCESS_PATH + ' ' + lig
     os.system(cmdlig)
  
     # ('GLN', 'B', '44', '55.7', 'receptor')

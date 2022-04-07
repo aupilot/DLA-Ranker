@@ -30,7 +30,7 @@ import scr
 from numpy import asarray
 from sklearn.preprocessing import OneHotEncoder
 import subprocess
-import deepScoring.load_data as load
+import load_data as load
 from sklearn.preprocessing import MinMaxScaler
 
 logging.basicConfig(filename='manager.log', filemode='w', format='%(levelname)s: %(message)s', level=logging.DEBUG)
