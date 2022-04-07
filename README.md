@@ -155,5 +155,5 @@ From directory 'Test' run ```python extract_embeddings.py```
 It extracts embeddings and the topology for each given interface and write them in a an output file with the same name. Each row in a file belongs to a residue and includes the its coordinates, its region, and its embedding vector. These files can be used for aggregation of embeddings based on graph-learning.
 
 #### Acknowledgement
-We would like to thank Dr. Sergei Grudinin and his team for helping us with the source code of ```maps_generator``` and ```load_data.py```. See [Ornate](https://academic.oup.com/bioinformatics/article/35/18/3313/5341430?login=true).
+We would like to thank Prof. Sergei Grudinin and his team for helping us with the source code of ```maps_generator``` and ```load_data.py```. See [Ornate](https://academic.oup.com/bioinformatics/article/35/18/3313/5341430?login=true).
 
