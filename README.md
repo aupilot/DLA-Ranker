@@ -4,7 +4,6 @@
 - [Requirements](#Requirements)
 - [Tutorial](#Tutorial)
 - [License](./LICENSE)
-- [Issues](#Issues-and-Contributing)
 
 ## Citation:
 Y. Mohseni Behbahani, S. Crouzet, E. Laine, A. Carbone, *Deep Local Analysis evaluates protein docking conformations with locally oriented cubes*
