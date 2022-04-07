@@ -46,6 +46,7 @@ the interfacial residues along with their neighboring atoms and the regions of t
 #### Packages:
 
 DLA-Ranker can be run on Linux, MacOS, and Windows. We recommend to use DLA-Ranker on the machines with GPU. It requires following packages:
+- NACCESS
 - Python version 3.7 or 3.8.
 - Tensorflow version 2.2 or 2.3.
 - Cuda-Toolkit
@@ -93,7 +94,7 @@ Example
 
 
 #### Processing the conformations
-From directory 'Representation' run: ```python generate_cubes.py```
+Specify the path to NACCESS in ```lib/tools.py``` (```NACCESS_PATH```). From directory 'Representation' run: ```python generate_cubes.py```
 
 The output will be directory 'map_dir' with the following structure:
 
@@ -153,4 +154,7 @@ One can associate the Residues' numbers, regions, scores, and partner to evaluat
 #### Extraction of the embeddings
 From directory 'Test' run ```python extract_embeddings.py```
 It extracts embeddings and the topology for each given interface and write them in a an output file with the same name. Each row in a file belongs to a residue and includes the its coordinates, its region, and its embedding vector. These files can be used for aggregation of embeddings based on graph-learning.
+
+#### Acknowledgement
+We would like to thank Dr. Sergei Grudinin and his team for helping us with the source code of ```maps_generator``` and ```load_data.py```. See [Ornate](https://academic.oup.com/bioinformatics/article/35/18/3313/5341430?login=true).
 
