@@ -6,7 +6,20 @@
 - [License](./LICENSE)
 
 ## Citation:
-Y. Mohseni Behbahani, S. Crouzet, E. Laine, A. Carbone, *Deep Local Analysis evaluates protein docking conformations with locally oriented cubes*
+
+```
+@article {Mohseni Behbahani2022.04.05.487134,
+	author = {Mohseni Behbahani, Yasser and Crouzet, Simon and Laine, {\'E}lodie and Carbone, Alessandra},
+	title = {Deep Local Analysis evaluates protein docking conformations with locally oriented cubes},
+	elocation-id = {2022.04.05.487134},
+	year = {2022},
+	doi = {10.1101/2022.04.05.487134},
+	publisher = {Cold Spring Harbor Laboratory},
+	URL = {https://www.biorxiv.org/content/early/2022/04/06/2022.04.05.487134},
+	eprint = {https://www.biorxiv.org/content/early/2022/04/06/2022.04.05.487134.full.pdf},
+	journal = {bioRxiv}
+}
+```
 
 ## Overview
 ![](Images/method5.svg.png?raw=true "DLA-Ranker")
