@@ -136,7 +136,7 @@ Example
 Each output represents interface of a conformation and contains a set of local environments (*e.g. atomic density map, structure classes (S,C,R), topology of the interface, ...*)
 
 An atomic density map is a 4 dimensional tensor: a voxelized 3D grid with a size of ```24*24*24```. Each voxel encodes some characteristics of the protein atoms. Namely, the first 167 dimensions correspond to the
-atom types that can be found in amino acids (without the hydrogen). This dimension can be reduced to 4 element symbols (C,N,O,S) by running ```python generate_cubes_reduce_channels_multiproc.py```.  
+atom types that can be found in amino acids (without the hydrogen). This dimension can be reduced to 4 element symbols (C,N,O,S) by running ```python generate_cubes_reduce_channels_multiproc.py``` (ATTENTION: This code overwrite the existing files). 
 
 ### Deep learning framework
 
