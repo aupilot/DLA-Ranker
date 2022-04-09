@@ -68,6 +68,9 @@ hidden_size1 = 200
 hidden_size2 = 20
 v_dim = 24
 
+atom_channels = 167
+#atom_channels = 4
+
 logging.basicConfig(filename='manager.log', filemode='w', format='%(levelname)s: %(message)s', level=logging.DEBUG)
 mainlog = logging.getLogger('main')
 logging.Logger
@@ -102,7 +105,40 @@ else:
 encoder = OneHotEncoder(sparse=False, handle_unknown='ignore')
 onehot = encoder.fit(np.asarray([['S'], ['C'], ['R']]))
 
+
 def Conv_3D_model(input_shape, input_shape_aux):
+    X_in = Input(shape=input_shape)
+    aux_input = Input(shape=input_shape_aux)
+
+    H = Conv3D(20, kernel_size=(1, 1, 1), use_bias = True, padding = 'valid', activation='linear', kernel_initializer='he_uniform', input_shape=X_in.shape)(X_in)
+    H = BatchNormalization()(H)    
+    H = Conv3D(20, kernel_size=(3, 3, 3), use_bias = True, padding = 'valid', activation='elu', kernel_initializer='he_uniform', input_shape=H.shape)(H)
+    H = BatchNormalization()(H)
+    H = Conv3D(30, kernel_size=(4, 4, 4), use_bias = True, padding = 'valid', activation='elu', kernel_initializer='he_uniform', input_shape=H.shape)(H)
+    H = BatchNormalization()(H)
+    H = Conv3D(20, kernel_size=(4, 4, 4), use_bias = True, padding = 'valid', activation='elu', kernel_initializer='he_uniform', input_shape=H.shape)(H)
+    H = BatchNormalization()(H)
+    H = AveragePooling3D(pool_size=(4, 4, 4), strides=(4, 4, 4))(H)
+    H = Flatten()(H)
+    H = Dropout(0.4)(H)
+    
+    H = Concatenate()([H, aux_input])
+    
+    H = Dense(hidden_size1, activation='elu', name='layer1', kernel_constraint=max_norm(4), bias_constraint=max_norm(4))(H)
+    H = Dropout(0.2)(H)
+    
+    H = Dense(hidden_size2, activation='elu', name='layer2', kernel_constraint=max_norm(4), bias_constraint=max_norm(4))(H)
+    H = Dropout(0.1)(H)
+    
+    Y = Dense(1, activation='sigmoid')(H)
+
+    _model = Model(inputs=[X_in, aux_input], outputs=Y)
+    _model.compile(loss='binary_crossentropy', optimizer=Adam(lr=0.001))
+    _model.summary()
+    return _model
+
+
+def Conv_3D_model_4channels(input_shape, input_shape_aux):
     X_in = Input(shape=input_shape)
     aux_input = Input(shape=input_shape_aux)
     
@@ -164,8 +200,13 @@ d_class_weights = dict(enumerate(class_weights))
 for foldk in ['Total']:
     seed(int(np.round(np.random.random()*10)))
     
-    input_shape=(v_dim,v_dim,v_dim,4+6)
-    model  = Conv_3D_model(input_shape, 3)
+    input_shape=(v_dim,v_dim,v_dim,atom_channels+6)
+    
+    if atom_channels == 4:
+        model  = Conv_3D_model_4channels(input_shape, 3)
+    else:
+        model  = Conv_3D_model(input_shape, 3)
+    
     #model = load_model('Total_0_model')
             
     with open(str(foldk) + '_train_interfaces.txt', 'w') as f_handler_trainlist:
