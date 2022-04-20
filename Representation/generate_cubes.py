@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Sun Jan  2 20:21:06 2022
@@ -40,29 +39,41 @@ logging.Logger
 sys.path.insert(1, '../lib/')
 import tools as tl
 
-confom_dict = pd.read_csv('../Examples/conformations_list.txt', sep=';')    
-comp_dir = '../Examples/conformations_directory'
+# confom_dict = pd.read_csv('../Examples/conformations_list.txt', sep=';')
+# comp_dir = '../Examples/conformations_directory'
+# map_dir = '../Examples/map_dir'
+confom_dict = pd.read_csv('../Kir/conformations_list.txt', sep=';')
+comp_dir = '../Kir/conformations_dir'
+map_dir = '../Kir/map_dir'
+
+
 target_comp = listdir(comp_dir)
 
-map_dir = '../Examples/map_dir'
 if not path.exists(map_dir):
     mkdir(map_dir)
 
 
-bin_path = "./mapsGenerator/build/maps_generator"
+# bin_path = "./mapsGenerator/build/maps_generator"
+bin_path = "./maps_generator"
 v_dim = 24
 
 def mapcomplex(file, pose_class, ch1, ch2, pair, pose):
     try:
         name = pair+'_'+str(pose)
-        
-        rec = parsePDB(file).select('protein').select('chain ' + ch1[0])
+
+        # ==kir - account for 2 chains. all was broken!
+        # rec = parsePDB(file+".pdb").select('protein').select('chain ' + ch1[0])
+        rec = parsePDB(file + ".pdb", chain=ch1)
         rec.setChids('R')
-        lig = parsePDB(file).select('protein').select('chain ' + ch2[0])
+
+        # lig = parsePDB(file+".pdb").select('protein').select('chain ' + ch2[0])
+        lig = parsePDB(file + ".pdb", chain=ch2)
         lig.setChids('L')    
         
-        writePDB(name+'_r.pdb', rec.toAtomGroup())
-        writePDB(name+'_l.pdb', lig.toAtomGroup())
+        # writePDB(name+'_r.pdb', rec.toAtomGroup())
+        writePDB(name+'_r.pdb', rec)
+        # writePDB(name+'_l.pdb', lig.toAtomGroup())
+        writePDB(name+'_l.pdb', lig)
         writePDB(name+'_complex.pdb', rec.toAtomGroup() + lig.toAtomGroup())
         
         scr.get_scr(name+'_r.pdb', name+'_l.pdb', name+'_complex.pdb', name)
@@ -123,14 +134,15 @@ def mapcomplex(file, pose_class, ch1, ch2, pair, pose):
         
         X = np.reshape(data_norm, (-1,v_dim,v_dim,v_dim,173))
         y = [int(pose_class)]*(len(res_inter_rec) + len(res_inter_lig))
-        
+
         map_name = path.join(map_dir, pair, pose_class, name)
         tl.save_obj((X,y,reg_type,res_pos,res_name,res_inter_rec+res_inter_lig), map_name)
-        
+
         check_call(
             [
-                'lz4', '-f',   #, '--rm' because if inconsistency in lz4 versions! 
-                map_name + '.pkl'
+                'lz4', '-f',      #, '--rm' because if inconsistency in lz4 versions!
+                map_name + '.pkl',
+                map_name + '.lz4'    #==kir -added output. otherwise compresses to terminal!
             ],
             stdout=sys.stdout)
         remove(map_name + '.pkl')
@@ -156,8 +168,9 @@ def mapcomplex(file, pose_class, ch1, ch2, pair, pose):
 already_exist = listdir(map_dir)
 def process_targetcomplex(targetcomplex, comp_dir, report_dict):
     try:
-        if targetcomplex in already_exist:
-            return
+        # if targetcomplex in already_exist:
+        #     print("Cannot overwrite the map_dir folder!")
+        #     return
         logging.info('Processing ' + targetcomplex + ' ...')
         pos_path = path.join(map_dir, targetcomplex, '1')
         neg_path = path.join(map_dir, targetcomplex, '0')

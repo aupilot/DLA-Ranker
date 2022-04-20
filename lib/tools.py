@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Fri Feb  7 16:33:47 2020
@@ -12,7 +11,7 @@ import pickle
 import shutil
 import pypdb
 import pandas as pd
-import protein as pr
+#import protein as pr
 from prody import *
 from os import path, mkdir, remove, getenv, listdir, system
 from io import StringIO
@@ -26,13 +25,15 @@ import gzip
 
 #========================================================
 #NACCESS
-NACCESS_PATH='naccess'
+NACCESS_PATH='/home/kir/Apps/Naccess/naccess'
 #========================================================
 
 
 def save_obj(obj, name):
     with open(name + '.pkl', 'wb') as f:
-        pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+        # pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+        pickle.dump(obj, f, fix_imports=True)
+        f.close()
 
 def load_obj(name):
     with open(name + '.pkl', 'rb') as f:
