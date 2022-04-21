@@ -1,0 +1,5 @@
+Comp;ch1;ch2;Conf;Class
+4xak;HL;A;4xak/4xak-native;1
+4xak;HL;A;4xak/decoy_1;1
+4xak;HL;A;4xak/decoy_2;1
+4xak;HL;A;4xak/decoy_7;0
