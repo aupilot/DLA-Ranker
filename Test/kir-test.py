@@ -11,32 +11,29 @@ import os
 import sys
 import gc
 from os import path, mkdir, getenv, listdir, remove, system, stat
-import pandas as pd
 import numpy as np
 import glob
 
-import seaborn as sns
-from math import exp
-from subprocess import CalledProcessError, check_call
+from subprocess import CalledProcessError, check_call, DEVNULL
 import traceback
 from random import shuffle, random, seed, sample
-from numpy import newaxis
-import matplotlib.pyplot as plt
 import time
 
-from numpy import asarray
+# from numpy import asarray
 from sklearn.preprocessing import OneHotEncoder
 
-import tensorflow.keras
-from tensorflow.keras import backend as K
+# disable TF warnings
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+# import tensorflow.keras
+# from tensorflow.keras import backend as K
 from tensorflow.keras.models import load_model
 
-from tensorflow.keras.layers import Dot
-from tensorflow.keras.backend import ones, ones_like
-from tensorflow.keras.optimizers import Adam
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, accuracy_score, roc_auc_score, roc_curve, precision_recall_curve
-from sklearn.preprocessing import MinMaxScaler
+# from tensorflow.keras.layers import Dot
+# from tensorflow.keras.backend import ones, ones_like
+# from tensorflow.keras.optimizers import Adam
+# from sklearn.model_selection import train_test_split
+# from sklearn.metrics import mean_squared_error, accuracy_score, roc_auc_score, roc_curve, precision_recall_curve
+# from sklearn.preprocessing import MinMaxScaler
 import pickle
 
 print('Your python version: {}'.format(sys.version_info.major))
@@ -90,10 +87,11 @@ def load_map(sample_path):
     check_call(
         [
             'lz4', '-d', '-f',
-            sample_path + ".lz4",
+            sample_path,
             sample_path + ".pkl"
         ],
-        stdout=sys.stdout)
+        # stdout=sys.stdout)
+        stdout=DEVNULL, stderr=DEVNULL)
     X_train, y_train, reg_type, res_pos,_,info = load_obj(sample_path)
     # remove(sample_path.replace('.lz4',''))
     return X_train, y_train, reg_type, res_pos, info
@@ -122,8 +120,9 @@ predictions_file.write('Conf' + '\t' +
 
 for test_interface in batch_samples_test:
     try:
-        print(test_interface)
+        # print(test_interface)
         X_test, y_test, reg_type, res_pos, info = load_map(test_interface)
+        remove(test_interface + ".pkl")
         X_aux = encoder.transform(list(map(lambda x: [x], reg_type)))
         if len(X_test) == 0 or len(X_aux) != len(X_test):
             continue
@@ -138,7 +137,8 @@ for test_interface in batch_samples_test:
     _ = gc.collect()
 
     test_preds = all_scores.mean()
-    print(y_test)
+    # print(y_test)
+    print(f"{test_interface} {test_preds}")
     predictions_file.write(test_interface + '\t' +
                         str(fold) + '\t' +
                         ','.join(list(map(lambda x: str(x[0]), all_scores))) + '\t' +

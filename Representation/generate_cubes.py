@@ -158,7 +158,7 @@ def mapcomplex(file, pose_class, ch1, ch2, pair, pose):
         
         
     except Exception as e:
-        logging.info("Bad interface!" + '\nError message: ' + str(e) + 
+        logging.info("Bad interface!" + '\nError message: ' + str(e) +
                       "\nMore information:\n" + traceback.format_exc())
         return [],[],[]
     
@@ -185,7 +185,7 @@ def process_targetcomplex(targetcomplex, comp_dir, report_dict):
         bad_poses = confom_dict.loc[(confom_dict.Comp == targetcomplex) & (confom_dict.Class == 0)].Conf.to_list()
         ch1, ch2 =  confom_dict.loc[confom_dict.Comp == targetcomplex][['ch1','ch2']].iloc[0]
         for pose in good_poses:
-            file = path.join(comp_dir, pose + '.pdb')
+            file = path.join(comp_dir, pose)
             mapcomplex(file, '1', ch1, ch2, targetcomplex, path.basename(pose))
         for pose in bad_poses:
             file = path.join(comp_dir, pose)
