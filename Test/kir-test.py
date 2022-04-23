@@ -79,7 +79,7 @@ map_dir = '../Kir/map_dir'
 samples_test = listdir(map_dir)
 
 model = load_model(path.join('../Examples', 'MODELS', 'Dockground', '0_model'))
-# model = load_model(path.join('../Examples', 'MODELS', 'BM5', '0_model'))
+# model = load_model(path.join('../Examples', 'MODELS', 'BM5', '0_model'))  <-- does not work!
 
 predictions_file = open('../Kir/predictions_kir.txt', 'w')
 
@@ -138,7 +138,7 @@ for test_interface in batch_samples_test:
 
     test_preds = all_scores.mean()
     # print(y_test)
-    print(f"{test_interface} {test_preds}")
+    print(f"{test_interface} \t{test_preds}")
     predictions_file.write(test_interface + '\t' +
                         str(fold) + '\t' +
                         ','.join(list(map(lambda x: str(x[0]), all_scores))) + '\t' +
