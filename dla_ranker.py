@@ -444,9 +444,7 @@ def dla_rank():
     return results
 
 
-
-if __name__ == '__main__':
-
+def do_the_job():
     # first, we need to get rid of dots in the file names because the fortran program naccess gets confused!
     nodot_decoys = [fname.replace("decoy.", "decoy_") for fname in confom_dict]
     for src, dst in zip(confom_dict, nodot_decoys):
@@ -465,3 +463,6 @@ if __name__ == '__main__':
     for dec_no in accepted:
         copy(f"{decoy_dir}decoy.{dec_no}.pdb", good_decoys)
 
+
+if __name__ == '__main__':
+    do_the_job()
