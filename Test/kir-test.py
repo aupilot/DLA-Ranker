@@ -78,7 +78,7 @@ map_dir = '../Kir/map_dir'
 
 samples_test = listdir(map_dir)
 
-model = load_model(path.join('../Examples', 'MODELS', 'Dockground', '0_model'))
+model = load_model(path.join('../', 'Models', 'Dockground', '0_model'))
 # model = load_model(path.join('../Examples', 'MODELS', 'BM5', '0_model'))  <-- does not work!
 
 predictions_file = open('../Kir/predictions_kir.txt', 'w')

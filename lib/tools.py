@@ -25,7 +25,7 @@ import gzip
 
 #========================================================
 #NACCESS
-NACCESS_PATH='/home/kir/Apps/Naccess/naccess'
+NACCESS_PATH='/opt/DLA-Ranker/Naccess/naccess'
 #========================================================
 
 

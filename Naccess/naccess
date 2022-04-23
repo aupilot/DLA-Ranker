@@ -1,5 +1,6 @@
 #!/bin/csh 
-set EXE_PATH = /home/kir/Apps/Naccess
+set EXE_PATH = /opt/DLA-Ranker/Naccess
+#!/usr/bin/csh
 
 #naccess_start
 #
