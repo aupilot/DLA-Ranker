@@ -10,17 +10,18 @@ from subprocess import CalledProcessError, check_call, call
 # from prody import
 import subprocess
 import pickle
-
 from prody import parsePDB, writePDB
 from sklearn.preprocessing import OneHotEncoder
-
 # disable TF warnings
 from tensorflow.python.keras.models import load_model
-
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
-
+'''
+Run DLA-Ranker on confom_dict decoys and copy to the good_decoys dir only these that have score better than acceptable_score
+Ex:
+python3 dla_ranker.py
+'''
 
 acceptable_score = 0.06
 
@@ -424,6 +425,8 @@ def dla_rank():
     results = dict()
 
     for test_interface in samples_test:
+        if not test_interface.endswith("lz4"):
+            continue
         # print(test_interface)
         sample_path = map_dir + test_interface
         X_test, y_test, reg_type, res_pos, info = load_map(sample_path)
@@ -444,7 +447,7 @@ def dla_rank():
     return results
 
 
-def do_the_job():
+def dla_ranker_filter():
     # first, we need to get rid of dots in the file names because the fortran program naccess gets confused!
     nodot_decoys = [fname.replace("decoy.", "decoy_") for fname in confom_dict]
     for src, dst in zip(confom_dict, nodot_decoys):
@@ -465,4 +468,6 @@ def do_the_job():
 
 
 if __name__ == '__main__':
-    do_the_job()
+    # decoy_dir = sys.argv[1]
+
+    dla_ranker_filter()
