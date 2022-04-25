@@ -18,14 +18,14 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
 '''
-Run DLA-Ranker on confom_dict decoys and copy to the good_decoys dir only these that have score better than acceptable_score
+Run DLA-Ranker on "confom_dict" decoys and copy to the good_decoys dir only these that have score better than acceptable_score
 Ex:
 python3 dla_ranker.py
 '''
 
-acceptable_score = 0.06
+acceptable_score = 0.035        # 0.06 - good indicator, but we will often get 0 good decoys.
 
-use_multiprocessing = False  # не работает!!!
+use_multiprocessing = False  # True не работает!!!
 #TODO: fix multipro
 max_cpus = 4
 
@@ -44,8 +44,8 @@ channel_receptor = 'HL'
 channel_ligand   = 'A'
 
 #TODO: replace with the correct path!
-# dla_dir = "/home/kir/Apps/DLA-Ranker/"
-dla_dir = "/opt/DLA-Ranker/"
+dla_dir = "/home/kir/Apps/DLA-Ranker/"
+# dla_dir = "/opt/DLA-Ranker/"
 decoy_dir = '/opt/var/decoys/'
 map_dir = '/opt/var/map_dir/'
 good_decoys = '/opt/var/good_decoys/'
