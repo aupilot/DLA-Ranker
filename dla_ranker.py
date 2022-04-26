@@ -1,7 +1,9 @@
+import argparse
 import gc
 import os
 import re
 import sys
+from multiprocessing import Pool
 from os import path, remove, listdir
 from shutil import copyfile, rmtree, copy
 import numpy as np
@@ -23,11 +25,11 @@ Ex:
 python3 dla_ranker.py
 '''
 
-acceptable_score = 0.035        # 0.06 - good indicator, but we will often get 0 good decoys.
+# acceptable_score = 0.06        # 0.06 - good indicator.
 
-use_multiprocessing = False  # True не работает!!!
+use_multiprocessing = False  # True не работает, because naccess uses the same file names for temp files
 #TODO: fix multipro
-max_cpus = 4
+max_cpus = 8
 
 confom_dict = [
     "decoy.1.pdb",
@@ -70,26 +72,14 @@ def load_obj(name):
 
 
 def do_processing(cases, function, use_multiprocessing):
-    if use_multiprocessing:
-        import multiprocessing
-        manager = multiprocessing.Manager()
-        report_dict = manager.dict()
-        pool = multiprocessing.Pool(processes=min(max_cpus, multiprocessing.cpu_count()))
-    else:
-        report_dict = dict()
 
-    for args in cases:
-        # args = (args, report_dict)
-        if use_multiprocessing:
-            pool.apply_async(function, args=args)
-        else:
+    if use_multiprocessing:
+        with Pool() as pool:
+            pool.map(function, cases)
+    else:
+        for args in cases:
             function(args)
 
-    if use_multiprocessing:
-        pool.close()
-        pool.join()
-
-    # return dict(report_dict)
 
 
 def rimcoresup(rsa_rec, rsa_lig, rsa_complex):
@@ -411,7 +401,7 @@ def generate_cubes(decoys):
     do_processing(decoys, mapcomplex, use_multiprocessing)
 
 
-def dla_rank():
+def dla_rank(acceptable_score=0.06):
     print('Your tensorflow version: {}'.format(tf.__version__))
     print("GPU : "+tf.test.gpu_device_name())
     # physical_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -448,14 +438,14 @@ def dla_rank():
     return results
 
 
-def dla_ranker_filter():
+def dla_ranker_filter(acceptable_score):
     # first, we need to get rid of dots in the file names because the fortran program naccess gets confused!
     nodot_decoys = [fname.replace("decoy.", "decoy_") for fname in confom_dict]
     for src, dst in zip(confom_dict, nodot_decoys):
         copyfile(decoy_dir + src, decoy_dir + dst)
 
     generate_cubes(nodot_decoys)
-    results = dla_rank()
+    results = dla_rank(acceptable_score)
     accepted = {k.replace(".lz4","").replace("decoy_", ""): v for k, v in results.items() if v >= acceptable_score}
     # clean up the no-dot files
     for file in nodot_decoys:
@@ -467,8 +457,13 @@ def dla_ranker_filter():
     for dec_no in accepted:
         copy(f"{decoy_dir}decoy.{dec_no}.pdb", good_decoys)
 
+    print(f"Good Decoys: {len(accepted)} out of {len(results)}")
 
 if __name__ == '__main__':
     # decoy_dir = sys.argv[1]
+    parser = argparse.ArgumentParser(description="DLA Ranker")
+    parser.add_argument("threshold", type=float, help="")
+    args = parser.parse_args()
 
-    dla_ranker_filter()
+
+    dla_ranker_filter(args.threshold)
