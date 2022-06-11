@@ -46,8 +46,8 @@ channel_receptor = 'HL'
 channel_ligand   = 'A'
 
 #TODO: replace with the correct path!
-dla_dir = "/home/kir/Apps/DLA-Ranker/"
-# dla_dir = "/opt/DLA-Ranker/"
+# dla_dir = "/home/kir/Apps/DLA-Ranker/"
+dla_dir = "/opt/DLA-Ranker/"
 decoy_dir = '/opt/var/decoys/'
 map_dir = '/opt/var/map_dir/'
 good_decoys = '/opt/var/good_decoys/'
@@ -79,7 +79,6 @@ def do_processing(cases, function, use_multiprocessing):
     else:
         for args in cases:
             function(args)
-
 
 
 def rimcoresup(rsa_rec, rsa_lig, rsa_complex):
