@@ -1,7 +1,10 @@
 import argparse
 import gc
+import glob
 import os
+import pathlib
 import re
+import shutil
 import sys
 from multiprocessing import Pool
 from os import path, remove, listdir
@@ -54,7 +57,8 @@ good_decoys = '/opt/var/good_decoys/'
 
 maps_gen_exe = dla_dir + 'Representation/maps_generator'
 v_dim = 24
-naccess_exe  = f'cd {map_dir}; {dla_dir}Naccess/naccess'
+# naccess_exe  = f'cd {map_dir}; {dla_dir}Naccess/naccess'
+naccess = f'{dla_dir}Naccess/naccess'
 
 # sys.path.insert(1, f"{dla_dir}Representation")
 import Representation.load_data as load
@@ -243,18 +247,30 @@ def rimcoresup(rsa_rec, rsa_lig, rsa_complex):
     return rim, core, support
 
 
-def get_scr(rec, lig, com, name):
-    # print('rec', path.basename(rec.replace('pdb', 'rsa')))
-    # output = subprocess.run(['csh', naccess_exe, com], capture_output=False, check=True)
-    # output = subprocess.run([naccess_exe, rec], capture_output=False, check=True)
-    # output = subprocess.run([naccess_exe, lig], capture_output=False, check=True)
-    cmdcompl = naccess_exe + ' ' + com
-    os.system(cmdcompl)
+def run_nsaccess(arg):
+    # we run naccess in a separate dir, because it creates tmp files. then we copy all the result files back to our working dir
+    thr = arg[0]
+    pdb = arg[1]
+    dir = f"/tmp/naccess_{thr}"
+    pathlib.Path(dir).mkdir(exist_ok=True)
+    cmd = f'cd {dir} && {naccess} -r {dla_dir}Naccess/vdw.radii -s {dla_dir}Naccess/standard.data {pdb}'
+    os.system(cmd)
 
-    cmdrec = naccess_exe + ' ' + rec
-    os.system(cmdrec)
-    cmdlig = naccess_exe + ' ' + lig
-    os.system(cmdlig)
+    for file in glob.glob(dir + "/*"):
+        print(file)
+        shutil.copy(file, map_dir)
+
+
+def get_scr(rec, lig, com, name):
+    # cmd = f'{naccess_exe} -r {dla_dir}Naccess/vdw.radii -s {dla_dir}Naccess/standard.data {com}'
+    # os.system(cmd)
+    # cmd = f'{naccess_exe} -r {dla_dir}Naccess/vdw.radii -s {dla_dir}Naccess/standard.data {rec}'
+    # os.system(cmd)
+    # cmd = f'{naccess_exe} -r {dla_dir}Naccess/vdw.radii -s {dla_dir}Naccess/standard.data {lig}'
+    # os.system(cmd)
+
+    with Pool(3) as pool:
+        pool.map(run_nsaccess, [[0,com], [1,rec], [2,lig]])
 
     # ('GLN', 'B', '44', '55.7', 'receptor')
     # rim, core, support = rimcoresup(path.basename(rec.replace('pdb', 'rsa')), path.basename(lig.replace('pdb', 'rsa')),
