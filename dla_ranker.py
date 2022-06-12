@@ -45,7 +45,7 @@ confom_dict = [
 channel_receptor = 'HL'
 channel_ligand   = 'A'
 
-#TODO: replace with the correct path!
+# TODO: replace with the correct path!
 # dla_dir = "/home/kir/Apps/DLA-Ranker/"
 dla_dir = "/opt/DLA-Ranker/"
 decoy_dir = '/opt/var/decoys/'
@@ -463,6 +463,5 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="DLA Ranker")
     parser.add_argument("threshold", type=float, help="")
     args = parser.parse_args()
-
 
     dla_ranker_filter(args.threshold)

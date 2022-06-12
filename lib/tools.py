@@ -5,23 +5,23 @@ Created on Fri Feb  7 16:33:47 2020
 @author: mohseni
 """
 
-import logging
-import numpy as np
+# import logging
+# import numpy as np
 import pickle
-import shutil
-import pypdb
-import pandas as pd
-#import protein as pr
+# import shutil
+# import pypdb
+# import pandas as pd
+# #import protein as pr
 from prody import *
-from os import path, mkdir, remove, getenv, listdir, system
-from io import StringIO
-import urllib
-import re
-import glob
-from subprocess import CalledProcessError, check_call
-import traceback
-import sys
-import gzip
+# from os import path, mkdir, remove, getenv, listdir, system
+# from io import StringIO
+# import urllib
+# import re
+# import glob
+# from subprocess import CalledProcessError, check_call
+# import traceback
+# import sys
+# import gzip
 
 #========================================================
 #NACCESS

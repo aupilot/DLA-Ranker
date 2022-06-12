@@ -6,31 +6,31 @@ Created on Sun Jan  2 20:21:06 2022
 """
 
 import logging
-import os
-import sys
+# import os
+# import sys
 from os import path, mkdir, getenv, listdir, remove, system, stat
 import pandas as pd
-import numpy as np
-from prody import *
-import glob
-import shutil
-#import matplotlib.pyplot as plt
-import seaborn as sns
-from math import exp
+# import numpy as np
+# from prody import *
+# import glob
+# import shutil
+# #import matplotlib.pyplot as plt
+# import seaborn as sns
+# from math import exp
 from subprocess import CalledProcessError, check_call, call
 import traceback
-from random import shuffle, random, seed, sample
-from numpy import newaxis
-import matplotlib.pyplot as plt
-import time
+# from random import shuffle, random, seed, sample
+# from numpy import newaxis
+# import matplotlib.pyplot as plt
+# import time
 from prody import *
-import collections
+# import collections
 import scr
-from numpy import asarray
-from sklearn.preprocessing import OneHotEncoder
-import subprocess
+# from numpy import asarray
+# from sklearn.preprocessing import OneHotEncoder
+# import subprocess
 import load_data as load
-from sklearn.preprocessing import MinMaxScaler
+# from sklearn.preprocessing import MinMaxScaler
 
 logging.basicConfig(filename='manager.log', filemode='w', format='%(levelname)s: %(message)s', level=logging.DEBUG)
 mainlog = logging.getLogger('main')
