@@ -269,7 +269,7 @@ def get_scr(rec, lig, com, name):
     # cmd = f'{naccess_exe} -r {dla_dir}Naccess/vdw.radii -s {dla_dir}Naccess/standard.data {lig}'
     # os.system(cmd)
 
-    with Pool(3) as pool:
+    with Pool() as pool:
         pool.map(run_nsaccess, [[0,com], [1,rec], [2,lig]])
 
     # ('GLN', 'B', '44', '55.7', 'receptor')
