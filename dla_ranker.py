@@ -257,7 +257,7 @@ def run_nsaccess(arg):
     os.system(cmd)
 
     for file in glob.glob(dir + "/*"):
-        print(file)
+        # print(file)
         shutil.copy(file, map_dir)
 
 
