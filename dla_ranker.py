@@ -475,9 +475,11 @@ def dla_ranker_filter(acceptable_score):
     print(f"Good Decoys: {len(accepted)} out of {len(results)}")
 
 if __name__ == '__main__':
-    # decoy_dir = sys.argv[1]
     parser = argparse.ArgumentParser(description="DLA Ranker")
-    parser.add_argument("threshold", type=float, help="")
+    parser.add_argument("threshold", type=float, default=0.045, help="Threshold")
+    parser.add_argument("decnumber", type=int, default=6, help="The number of megadock models to assess")
+
     args = parser.parse_args()
+    confom_dict = confom_dict[:args.decnumber]
 
     dla_ranker_filter(args.threshold)
